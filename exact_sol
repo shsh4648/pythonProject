@@ -1,0 +1,20 @@
+import numpy as np
+from mpmath import mp
+import matplotlib.pyplot as plt
+w = 50
+l = 50
+
+th = np.empty((w, l))
+th.fill(0)
+th[0,:] = 0
+th[:,0] = 0
+th[l-1,:] = 0
+th[:,w-1] = 1
+
+for x in range(0,w):
+    for y in range(0,l):
+        th[x,y] = 2/mp.pi*mp.nsum(lambda n: ((-1)**(n+1)+1)/(mp.sinh(n*(mp.pi)*w/l))*mp.sin(n*(mp.pi)*x/l)*mp.sinh(n*(mp.pi)*y/l), [1,50])
+
+plt.plot(th)
+plt.show()
+print("done")
