@@ -1,20 +1,23 @@
 import numpy as np
 from mpmath import mp
 import matplotlib.pyplot as plt
-w = 50
-l = 50
+w = 10
+l = 10
 
-th = np.empty((w, l))
+th = np.empty((w+1, l+1))
 th.fill(0)
 th[0,:] = 0
 th[:,0] = 0
-th[l-1,:] = 0
-th[:,w-1] = 1
+th[w,:] = 1
+th[:,l] = 0
 
-for x in range(0,w):
-    for y in range(0,l):
-        th[x,y] = 2/mp.pi*mp.nsum(lambda n: ((-1)**(n+1)+1)/(mp.sinh(n*(mp.pi)*w/l))*mp.sin(n*(mp.pi)*x/l)*mp.sinh(n*(mp.pi)*y/l), [1,50])
+for x in range(0,l+1):
+    for y in range(0,w+1):
+        th[y,x] = 2/mp.pi*mp.nsum(lambda n: ((-1)**(n+1)+1)/(n*mp.sinh(n*(mp.pi)*w/l))*mp.sin(n*(mp.pi)*x/l)*mp.sinh(n*(mp.pi)*y/l), [1,mp.inf])
 
-plt.plot(th)
+#plt.plot(th)
+
+plt.pcolormesh(th, cmap=plt.cm.jet, vmin=0, vmax=1)
+plt.colorbar()
 plt.show()
 print("done")
